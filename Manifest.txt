@@ -1,7 +1,7 @@
-History.txt
-Manifest.txt
-README.txt
-Rakefile
 bin/gchart
+CHANGELOG.txt
 lib/gchart.rb
+Manifest.txt
+Rakefile
+README.txt
 test/test_gchart.rb

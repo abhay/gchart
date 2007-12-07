@@ -1,17 +1,16 @@
+require File.dirname(__FILE__) + "/version"
 require "uri"
 
 class GChart
-  VALID_TYPES = %w(line linexy bar pie venn scatter).collect { |t| t.to_sym }
-  EXTENDED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.".split("")
-  
-  EXTENDED_PAIRS = EXTENDED_CHARS.collect do |first|
-    EXTENDED_CHARS.collect { |second| first + second }
-  end.flatten
+  URL   = "http://chart.apis.google.com/chart"
+  TYPES = %w(line linexy bar pie venn scatter).collect { |t| t.to_sym }
+  CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.".split("")
+  PAIRS = CHARS.collect { |first| CHARS.collect { |second| first + second } }.flatten
 
   class << self
     def encode_extended(number)
       return "__" if number.nil?
-      EXTENDED_PAIRS[number.to_i]
+      PAIRS[number.to_i]
     end
   end
   
@@ -19,9 +18,12 @@ class GChart
   #   colors
   #   background
   #
-  # url()
   # fetch()
   # write()
+  #
+  # for 1.1:
+  #   legends
+  #   area fills
   
   attr_accessor :data, :width, :height, :horizontal, :grouped, :title
   attr_reader :type
@@ -42,8 +44,8 @@ class GChart
   end
 
   def type=(type)
-    unless VALID_TYPES.include?(type)
-      raise ArgumentError, %Q(Invalid type "#type". Valid types: #{VALID_TYPES.join(", ")}.)
+    unless TYPES.include?(type)
+      raise ArgumentError, %Q(Invalid type "#type". Valid types: #{TYPES.join(", ")}.)
     end
     
     @type = type
@@ -58,9 +60,8 @@ class GChart
   end
   
   def to_url
-    base = "http://chart.apis.google.com/chart"
     query = google_query_params.collect { |k, v| "#{k}=#{URI.escape(v)}" }.join("&")
-    "#{base}?#{query}"
+    "#{URL}?#{query}"
   end
   
   def fetch
@@ -100,7 +101,7 @@ class GChart
     # we'll just always use the extended encoding for now
     sets = (Array === data.first ? data : [data]).collect do |set|
       max = set.max
-      set.collect { |n| GChart.encode_extended(n * (EXTENDED_PAIRS.size - 1) / max) }.join
+      set.collect { |n| GChart.encode_extended(n * (PAIRS.size - 1) / max) }.join
     end
     
     "e:#{sets.join(",")}"

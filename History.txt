@@ -1,3 +1,0 @@
-2007-12-06  John Barnette <jbarnette@rubyforge.org>
-
-  * Initial version.

@@ -6,6 +6,10 @@ class GChart
 end
 
 class TestGChart < Test::Unit::TestCase
+  def test_supplies_a_version
+    assert_not_nil(GChart::VERSION)
+  end
+  
   def test_allows_hash_initialization
     assert_equal(:line, GChart.new(:type => :line).type)
   end
@@ -23,7 +27,7 @@ class TestGChart < Test::Unit::TestCase
   end
   
   def test_allows_all_valid_chart_types
-    GChart::VALID_TYPES.each do |type|
+    GChart::TYPES.each do |type|
       assert_nothing_raised(ArgumentError) { GChart.new(:type => type) }
     end
   end
