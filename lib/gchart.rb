@@ -24,10 +24,10 @@ class GChart
     end
   end
 
-  # An array of chart data
+  # Array of chart data
   attr_accessor :data
   
-  # A hash of additional query params
+  # Hash of additional query params
   attr_accessor :extras
   
   # Width (in pixels)
@@ -44,6 +44,9 @@ class GChart
   
   # Overall chart title
   attr_accessor :title
+  
+  # Array of RRGGBB colors, one per data set
+  attr_accessor :colors
   
   attr_reader :type
   
@@ -98,6 +101,7 @@ class GChart
   def google_query_params
     params = { "cht" => google_chart_type, "chd" => google_data, "chs" => size }
     params["chtt"] = title.tr("\n", "|").gsub(/\s+/, "+") if title
+    params["chco"] = colors.join(",") if colors
     params.merge(extras)
   end
   

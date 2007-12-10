@@ -99,6 +99,11 @@ class TestGChart < Test::Unit::TestCase
     assert_equal("a|newline", chart.google_query_params["chtt"])
   end
   
+  def test_supports_colors
+    chart = GChart.new(:colors => ["cccccc", "eeeeee"])
+    assert_equal(chart.google_query_params["chco"], "cccccc,eeeeee")
+  end
+  
   def test_generates_correct_query_params_and_url_for_simple_example
     expected = { "cht" => "lc", "chs" => "300x200", "chd" => "e:AAAo..", "chtt" => "test" }
     

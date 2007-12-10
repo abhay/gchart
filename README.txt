@@ -21,17 +21,20 @@ a friendly Ruby interface. It can generate the URL for a given chart
   # pie chart
   g = GChart.pie(:data => [33, 33, 34])
   
-  # venn diagram (asize, bsize, csize, ab, bc, ca, abc)
+  # venn diagram (asize, bsize, csize, ab%, bc%, ca%, abc%)
   g = GChart.venn(:data => [100, 80, 60, 30, 30, 30, 10])
   
-  # scatter plot (list of x coords, list of y coords, optional sizes)
+  # scatter plot (x coords, y coords [, sizes])
   g = GChart.scatter(:data => [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1], [1, 2, 3, 4, 5]])
   
   # chart title
   g = GChart.line(:title => "Awesomeness over Time", :data => [0, 10, 100])
+
+  # data set colors
+  g = GChart.line(:data => [[0, 10, 100], [100, 10, 0]], :colors => ["ff0000", "0000ff"])
   
   g.to_url            # generate the chart's URL, or
-  g.fetch             # get the PNG bytes, or
+  g.fetch             # get the bytes, or
   g.write("foo.png")  # write to a file (defaults to "chart.png")
   g.write(stream)     # write to anything that quacks like IO
 
