@@ -48,7 +48,7 @@ class TestGChart < Test::Unit::TestCase
     assert_equal([], c.data)
     assert_equal(300, c.width)
     assert_equal(200, c.height)
-    assert(c.horizontal?)
+    assert(!c.horizontal?)
     assert(!c.grouped?)
   end
   
@@ -77,6 +77,11 @@ class TestGChart < Test::Unit::TestCase
     end
     
     assert_equal("__", GChart.encode_extended(nil))    
+  end
+  
+  def test_allows_extra_query_params
+    c = GChart.new(:extras => { :foo => :bar })
+    assert(c.google_query_params.include?(:foo))
   end
   
   def test_supports_title

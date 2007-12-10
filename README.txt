@@ -1,16 +1,16 @@
 = GChart
 
-== DESCRIPTION:
+== DESCRIPTION
   
-Chart exposes the Google Chart API (http://code.google.com/apis/chart) via
+GChart exposes the Google Chart API (http://code.google.com/apis/chart) via
 a friendly Ruby interface. It can generate the URL for a given chart
 (for webpage use), or download the generated PNG (for offline use).
 
-== FEATURES/PROBLEMS:
+== FEATURES/PROBLEMS
   
 * FIX (list of features or problems)
 
-== SYNOPSIS:
+== SYNOPSIS
 
   # line chart
   g = GChart.line(:data => [0, 10, 100])
@@ -32,22 +32,14 @@ a friendly Ruby interface. It can generate the URL for a given chart
   
   g.to_url            # generate the chart's URL, or
   g.fetch             # get the PNG bytes, or
-  g.write("foo.png")  # write to a file or IO object (defaults to "chart.png")
+  g.write("foo.png")  # write to a file (defaults to "chart.png")
+  g.write(stream)     # write to anything that quacks like IO
 
-== REQUIREMENTS:
-
-* hoe (to build)
-* mocha (to build)
-
-== INSTALL:
-
-* sudo gem install gchart
-
-== LICENSE:
+== LICENSE
 
 (The MIT License)
 
-Copyright (c) 2007 John Barnette (jbarnette@rubyforge.org)
+Copyright 2007 John Barnette (jbarnette@rubyforge.org)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -10,7 +10,7 @@ class GChart
   PAIRS = CHARS.collect { |first| CHARS.collect { |second| first + second } }.flatten
 
   class << self
-    def encode_extended(number)
+    def encode_extended(number) #:nodoc:
       return "__" if number.nil?
       PAIRS[number.to_i]
     end
@@ -23,12 +23,28 @@ class GChart
       END
     end
   end
+
+  # An array of chart data
+  attr_accessor :data
   
-  # for 1.0:
-  #   colors
-  #   background
+  # A hash of additional query params
+  attr_accessor :extras
   
-  attr_accessor :data, :width, :height, :horizontal, :grouped, :title
+  # Width (in pixels)
+  attr_accessor :width
+  
+  # Height (in pixels)
+  attr_accessor :height
+  
+  # Orientation. Applies to bar charts
+  attr_accessor :horizontal
+  
+  # Grouping. Applies to bar charts
+  attr_accessor :grouped
+  
+  # Overall chart title
+  attr_accessor :title
+  
   attr_reader :type
   
   alias_method :horizontal?, :horizontal
@@ -37,6 +53,7 @@ class GChart
   def initialize(options={}, &block)
     @type = :line
     @data = []
+    @extras = {}
     @width = 300
     @height = 200
     @horizontal = false
@@ -48,7 +65,7 @@ class GChart
 
   def type=(type)
     unless TYPES.include?(type)
-      raise ArgumentError, %Q(Invalid type "#type". Valid types: #{TYPES.join(", ")}.)
+      raise ArgumentError, %Q(Invalid type #{type.inspect}. Valid types: #{TYPES.inspect}.)
     end
     
     @type = type
@@ -81,7 +98,7 @@ class GChart
   def google_query_params
     params = { "cht" => google_chart_type, "chd" => google_data, "chs" => size }
     params["chtt"] = title.tr("\n", "|").gsub(/\s+/, "+") if title
-    params
+    params.merge(extras)
   end
   
   def google_chart_type
