@@ -1,4 +1,6 @@
 require File.dirname(__FILE__) + "/version"
+
+require "open-uri"
 require "uri"
 
 class GChart
@@ -12,18 +14,19 @@ class GChart
       return "__" if number.nil?
       PAIRS[number.to_i]
     end
+    
+    TYPES.each do |type|
+      class_eval <<-END
+        def #{type}(options={}, &block)
+          new(options.merge(:type => #{type.inspect}, &block))
+        end
+      END
+    end
   end
   
   # for 1.0:
   #   colors
   #   background
-  #
-  # fetch()
-  # write()
-  #
-  # for 1.1:
-  #   legends
-  #   area fills
   
   attr_accessor :data, :width, :height, :horizontal, :grouped, :title
   attr_reader :type
@@ -36,7 +39,7 @@ class GChart
     @data = []
     @width = 300
     @height = 200
-    @horizontal = true
+    @horizontal = false
     @grouped = false
     
     options.each { |k, v| send("#{k}=", v) }
@@ -65,11 +68,12 @@ class GChart
   end
   
   def fetch
-    raise "returns the PNG data as a string"
+    open(to_url) { |data| data.read }
   end
   
-  def write(io_or_file)
-    raise "fetches and then writes to io_or_file"
+  def write(io_or_file="chart.png")
+    return io_or_file.write(fetch) if io_or_file.respond_to?(:write)
+    open(io_or_file, "w+") { |f| f.write(fetch) }
   end
   
   private

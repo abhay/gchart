@@ -12,7 +12,27 @@ a friendly Ruby interface. It can generate the URL for a given chart
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  # line chart
+  g = GChart.line(:data => [0, 10, 100])
+  
+  # bar chart
+  g = GChart.bar(:data => [100, 1000, 10000])
+  
+  # pie chart
+  g = GChart.pie(:data => [33, 33, 34])
+  
+  # venn diagram (asize, bsize, csize, ab, bc, ca, abc)
+  g = GChart.venn(:data => [100, 80, 60, 30, 30, 30, 10])
+  
+  # scatter plot (list of x coords, list of y coords, optional sizes)
+  g = GChart.scatter(:data => [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1], [1, 2, 3, 4, 5]])
+  
+  # chart title
+  g = GChart.line(:title => "Awesomeness over Time", :data => [0, 10, 100])
+  
+  g.to_url            # generate the chart's URL, or
+  g.fetch             # get the PNG bytes, or
+  g.write("foo.png")  # write to a file or IO object (defaults to "chart.png")
 
 == REQUIREMENTS:
 
