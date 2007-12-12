@@ -1,5 +1,7 @@
 == UNRELEASED
 
+  * Support for basic :labels
+  * Support for pie3d
   * Minor doc cleanups
 
 == 0.1.0 (2007-12-10)
