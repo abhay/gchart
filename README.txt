@@ -6,9 +6,17 @@ GChart exposes the Google Chart API (http://code.google.com/apis/chart) via
 a friendly Ruby interface. It can generate the URL for a given chart
 (for webpage use), or download the generated PNG (for offline use).
 
-== FEATURES/PROBLEMS
-  
-* FIX (list of features or problems)
+== PROBLEMS/TODO
+
+* Add support for legends, fills (area or background), grid lines, shape markers, range markers 
+* Support shorthand colors and color names
+* Make venn data specification friendlier
+
+There are lots of missing features. Until they're implemented, you can directly specify
+query parameters using the :extras key, e.g.,
+
+  # provides a legend for each data set
+  g = GChart.line(:data => [[1, 2], [3, 4]], :extras => { "chdl" => ["First", "Second"] })
 
 == SYNOPSIS
 

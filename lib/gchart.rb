@@ -48,6 +48,7 @@ class GChart
   # Array of RRGGBB colors, one per data set
   attr_accessor :colors
   
+  # The chart type
   attr_reader :type
   
   alias_method :horizontal?, :horizontal
@@ -66,6 +67,7 @@ class GChart
     yield(self) if block_given?
   end
 
+  # Sets the chart type. Raises +ArgumentError+ if +type+ isn't in +TYPES+.
   def type=(type)
     unless TYPES.include?(type)
       raise ArgumentError, %Q(Invalid type #{type.inspect}. Valid types: #{TYPES.inspect}.)
@@ -74,23 +76,30 @@ class GChart
     @type = type
   end
   
+  # Returns the chart's size as "WIDTHxHEIGHT".
   def size
     "#{width}x#{height}"
   end
   
+  # Allows the chart's size to be set as "WIDTHxHEIGHT".
   def size=(size)
     self.width, self.height = size.split("x").collect { |n| Integer(n) }
   end
   
+  # Returns the chart's URL.
   def to_url
     query = google_query_params.collect { |k, v| "#{k}=#{URI.escape(v)}" }.join("&")
     "#{URL}?#{query}"
   end
   
+  # Returns the chart's generated PNG as a blob.
   def fetch
     open(to_url) { |data| data.read }
   end
   
+  # Writes the chart's generated PNG. If +io_or_file+ quacks like an IO,
+  # +write+ will be called. Otherwise, write to disk. +io_or_file+ defaults
+  # to "chart.png".
   def write(io_or_file="chart.png")
     return io_or_file.write(fetch) if io_or_file.respond_to?(:write)
     open(io_or_file, "w+") { |f| f.write(fetch) }
