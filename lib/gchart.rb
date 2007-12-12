@@ -16,7 +16,7 @@ class GChart
     end
     
     TYPES.each do |type|
-      class_eval <<-END
+      class_eval <<-END, __FILE__, __LINE__
         def #{type}(options={}, &block)
           new(options.merge(:type => #{type.inspect}, &block))
         end

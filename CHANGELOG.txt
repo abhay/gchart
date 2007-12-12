@@ -1,3 +1,7 @@
+== Unreleased
+
+  * (bug) Errors in the static helpers should report a reasonable file and line
+
 == 0.2.0 (2007-12-12)
 
   * Support for basic :labels
