@@ -5,7 +5,7 @@ require "uri"
 
 class GChart
   URL   = "http://chart.apis.google.com/chart"
-  TYPES = %w(line linexy bar pie venn scatter).collect { |t| t.to_sym }
+  TYPES = %w(line linexy bar pie pie3d venn scatter).collect { |t| t.to_sym }
   CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.".split("")
   PAIRS = CHARS.collect { |first| CHARS.collect { |second| first + second } }.flatten
 
@@ -126,6 +126,8 @@ class GChart
       "b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : "s")
     when :pie
       "p"
+    when :pie3d
+      "p3"
     when :venn
       "v"
     when :scatter
