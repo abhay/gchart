@@ -1,6 +1,7 @@
 CHANGELOG.txt
-lib/gchart.rb
 Manifest.txt
-Rakefile
 README.txt
+Rakefile
+lib/gchart.rb
+lib/version.rb
 test/test_gchart.rb
