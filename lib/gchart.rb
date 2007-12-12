@@ -48,6 +48,9 @@ class GChart
   # Array of RRGGBB colors, one per data set
   attr_accessor :colors
   
+  
+  attr_accessor :max
+  
   # The chart type
   attr_reader :type
   
@@ -131,9 +134,11 @@ class GChart
   end
   
   def google_data
-    # we'll just always use the extended encoding for now
-    sets = (Array === data.first ? data : [data]).collect do |set|
-      max = set.max
+    raw = data && data.first.is_a?(Array) ? data : [data]
+    max = self.max || raw.collect { |s| s.max }.max
+    
+    sets = raw.collect do |set|
+      # we'll just always use the extended encoding for now
       set.collect { |n| GChart.encode_extended(n * (PAIRS.size - 1) / max) }.join
     end
     
