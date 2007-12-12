@@ -1,3 +1,7 @@
-== 0.1.0
+== UNRELEASED
+
+  * Minor doc cleanups
+
+== 0.1.0 (2007-12-10)
 
   * Birthday!

@@ -81,7 +81,7 @@ class GChart
     "#{width}x#{height}"
   end
   
-  # Allows the chart's size to be set as "WIDTHxHEIGHT".
+  # Sets the chart's size as "WIDTHxHEIGHT".
   def size=(size)
     self.width, self.height = size.split("x").collect { |n| Integer(n) }
   end
@@ -97,9 +97,8 @@ class GChart
     open(to_url) { |data| data.read }
   end
   
-  # Writes the chart's generated PNG. If +io_or_file+ quacks like an IO,
-  # +write+ will be called. Otherwise, write to disk. +io_or_file+ defaults
-  # to "chart.png".
+  # Writes the chart's generated PNG to a file. If +io_or_file+ quacks like an IO,
+  # +write+ will be called on it instead.
   def write(io_or_file="chart.png")
     return io_or_file.write(fetch) if io_or_file.respond_to?(:write)
     open(io_or_file, "w+") { |f| f.write(fetch) }
