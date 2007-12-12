@@ -26,7 +26,7 @@ query parameters using the :extras key, e.g.,
   # bar chart
   g = GChart.bar(:data => [100, 1000, 10000])
   
-  # pie chart
+  # pie chart (pie3d for a fancier look)
   g = GChart.pie(:data => [33, 33, 34])
   
   # venn diagram (asize, bsize, csize, ab%, bc%, ca%, abc%)
@@ -37,6 +37,9 @@ query parameters using the :extras key, e.g.,
   
   # chart title
   g = GChart.line(:title => "Awesomeness over Time", :data => [0, 10, 100])
+
+  # data set labels
+  g = GChart.line(:data => [[1, 2], [3, 4]], :labels => ["Monkeys", "Ferrets"])
 
   # data set colors
   g = GChart.line(:data => [[0, 10, 100], [100, 10, 0]], :colors => ["ff0000", "0000ff"])
