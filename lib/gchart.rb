@@ -48,6 +48,8 @@ class GChart
   # Array of RRGGBB colors, one per data set
   attr_accessor :colors
   
+  # Array of data set labels
+  attr_accessor :labels
   
   attr_accessor :max
   
@@ -113,6 +115,12 @@ class GChart
     params = { "cht" => google_chart_type, "chd" => google_data, "chs" => size }
     params["chtt"] = title.tr("\n", "|").gsub(/\s+/, "+") if title
     params["chco"] = colors.join(",") if colors
+    
+    if labels
+      param = (type == :pie || type == :pie3d) ? "chl" : "chdl"
+      params[param] = labels.join("|")
+    end
+    
     params.merge(extras)
   end
   
