@@ -1,20 +1,37 @@
 module GChart
   class Bar < GChart::Base
-    #   # Orientation. Applies to bar charts
-    #   attr_accessor :horizontal
-    #   
-    #   # Grouping. Applies to bar charts
-    #   attr_accessor :grouped
-    #   
-    #   alias_method :horizontal?, :horizontal
-    #   alias_method :grouped?, :grouped
+    ORIENTATIONS = [:horizontal, :vertical]
     
-    # assert_equal("bhg", GChart.new(:type => :bar, :horizontal => true, :grouped => true).google_chart_type)
-    # assert_equal("bhs", GChart.new(:type => :bar, :horizontal => true, :grouped => false).google_chart_type)
-    # assert_equal("bvs", GChart.new(:type => :bar, :horizontal => false, :grouped => false).google_chart_type)
+    attr_accessor :grouped
+    alias_method :grouped?, :grouped
     
-    # def render_chart_type #:nodoc:
-    #   "lxy"
-    # end
+    attr_reader :orientation
+    
+    def initialize(*args, &block)
+      @grouped = false
+      @orientation = :horizontal
+      super
+    end
+    
+    def orientation=(orientation)
+      unless ORIENTATIONS.include?(orientation)
+        raise ArgumentError, "Invalid orientation: #{orientation.inspect}. " +
+          "Valid orientations: #{ORIENTATIONS.inspect}"
+      end
+      
+      @orientation = orientation
+    end
+    
+    def horizontal?
+      @orientation == :horizontal
+    end
+
+    def vertical?
+      @orientation == :vertical
+    end
+    
+    def render_chart_type #:nodoc:
+      "b#{@orientation.to_s[0..0]}#{grouped? ? "g" : "s"}"
+    end
   end
 end

@@ -110,9 +110,7 @@ describe GChart::Base, "#to_url" do
 end
 
 describe GChart::Base, "#fetch" do
-  # Uses GChart::Line instead of GChart::Base, since we actually want
-  # to fetch some bytes from Google.
-  
+  # THIS EXPECTATION HITS THE CLOUD!  Comment it out for a faster cycle. :)
   it "fetches a blob from Google" do
     blob = GChart.line(:data => [1, 2]).fetch
     blob.should_not be_nil

@@ -1,6 +1,6 @@
 == Unreleased
 
-  * Switched to RSpec
+  * Switched to RSpec, added skeletal specs for all types
   * Extensive refactoring, pulled chart types into GChart::Base subclasses
   * (bug) Errors in the static helpers should report a reasonable file and line
 
