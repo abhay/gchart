@@ -1,3 +1,4 @@
+require "tmpdir"
 require File.expand_path("#{File.dirname(__FILE__)}/../helper")
 
 describe GChart::Base do
@@ -94,5 +95,58 @@ describe GChart::Base, "#query_params" do
   it "contains the chart's colors" do
     @chart.colors = ["cccccc", "eeeeee"]
     @chart.query_params["chco"].should == "cccccc,eeeeee"
+  end
+end
+
+describe GChart::Base, "#to_url" do
+  before(:each) do
+    @chart = GChart::Base.new
+    @chart.stub!(:render_chart_type).and_return("TEST")
+  end
+
+  it "generates a URL that points at Google" do
+    @chart.to_url.should =~ %r(http://chart.apis.google.com/chart)
+  end
+end
+
+describe GChart::Base, "#fetch" do
+  # Uses GChart::Line instead of GChart::Base, since we actually want
+  # to fetch some bytes from Google.
+  
+  it "fetches a blob from Google" do
+    blob = GChart.line(:data => [1, 2]).fetch
+    blob.should_not be_nil
+    blob.should =~ /PNG/
+  end
+end
+
+describe GChart::Base, "#write" do
+  before(:each) do
+    @chart = GChart::Base.new
+    @chart.stub!(:fetch).and_return("PAYLOAD")
+  end
+  
+  it "writes to chart.png by default" do
+    Dir.chdir(Dir.tmpdir) do
+      @chart.write
+      File.file?("chart.png").should == true
+    end
+  end
+  
+  it "writes to a specified file" do
+    Dir.chdir(Dir.tmpdir) do
+      @chart.write("foo.png")
+      File.file?("foo.png").should == true
+    end
+  end
+  
+  it "writes to anything that quacks like IO" do
+    result = ""
+    
+    StringIO.open(result, "w+") do |io|
+      @chart.write(io)
+    end
+    
+    result.should == "PAYLOAD"
   end
 end
