@@ -8,7 +8,7 @@ a friendly Ruby interface. It can generate the URL for a given chart
 
 == PROBLEMS/TODO
 
-* Add support for legends, fills (area or background), grid lines, shape markers, range markers 
+* Add support fills (area or background), grid lines, shape markers, range markers 
 * Support shorthand colors and color names
 * Make venn data specification friendlier
 
@@ -38,8 +38,8 @@ query parameters using the :extras key, e.g.,
   # chart title
   g = GChart.line(:title => "Awesomeness over Time", :data => [0, 10, 100])
 
-  # data set labels
-  g = GChart.line(:data => [[1, 2], [3, 4]], :labels => ["Monkeys", "Ferrets"])
+  # data set legend
+  g = GChart.line(:data => [[1, 2], [3, 4]], :legend => ["Monkeys", "Ferrets"])
 
   # data set colors
   g = GChart.line(:data => [[0, 10, 100], [100, 10, 0]], :colors => ["ff0000", "0000ff"])

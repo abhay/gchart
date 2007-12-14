@@ -100,7 +100,7 @@ module GChart
     end
     
     def render_legend(params)
-      params["chl"] = legend.join("|") if legend
+      params["chdl"] = legend.join("|") if legend
     end    
   end
 end

@@ -1,5 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + "/version")
-%w(base bar line pie pie_3d scatter venn xy_line).each { |t| require "gchart/#{t}"}
+
+%w(base bar line pie pie_3d scatter venn xy_line).each do |type|
+  require File.expand_path(File.dirname(__FILE__) + "/gchart/#{type}")
+end
 
 module GChart
   URL   = "http://chart.apis.google.com/chart"
