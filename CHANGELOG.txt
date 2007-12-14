@@ -1,4 +1,4 @@
-== Unreleased
+== 0.3.0 (2007-12-14)
   
   * Breaking change: labels --> legend
   * Switched to RSpec, added skeletal specs for all types
