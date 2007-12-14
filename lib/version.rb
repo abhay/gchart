@@ -1,3 +1,3 @@
-class GChart
+module GChart
   VERSION = "0.2.0"  
 end

@@ -1,5 +1,7 @@
 require "rubygems"
 require "hoe"
+require "spec/rake/spectask"
+
 require "./lib/version.rb"
 
 hoe = Hoe.new("gchart", GChart::VERSION) do |p|
@@ -10,4 +12,10 @@ hoe = Hoe.new("gchart", GChart::VERSION) do |p|
   p.description = p.paragraphs_of("README.txt", 2..5).join("\n\n")
   p.url = "http://gchart.rubyforge.org"
   p.changes = p.paragraphs_of("CHANGELOG.txt", 0..1).join("\n\n")
+end
+
+desc "Run all specs"
+Spec::Rake::SpecTask.new do |t|
+  t.spec_files = FileList["spec/**/*_spec.rb"]
+  t.spec_opts = ["--options", "spec/spec.opts"]
 end
