@@ -7,7 +7,7 @@ module GChart
     attr_accessor :extras
     attr_accessor :title
     attr_accessor :colors
-    attr_accessor :labels
+    attr_accessor :legend
     attr_accessor :max
 
     attr_reader :width    
@@ -66,23 +66,21 @@ module GChart
     protected
     
     def query_params
-      params = { "cht" => render_chart_type, "chd" => render_data, "chs" => size }
-      params["chtt"] = title.tr("\n", "|").gsub(/\s+/, "+") if title
-      params["chco"] = colors.join(",") if colors
+      params = { "cht" => render_chart_type, "chs" => size }
     
-      if labels
-        param = (type == :pie || type == :pie3d) ? "chl" : "chdl"
-        params[param] = labels.join("|")
-      end
-    
+      render_data(params)
+      render_title(params)
+      render_colors(params)
+      render_legend(params)
+
       params.merge(extras)
     end
-    
+
     def render_chart_type
       raise NotImplementedError, "override in subclasses"
     end
     
-    def render_data
+    def render_data(params)
       raw = data && data.first.is_a?(Array) ? data : [data]
       max = self.max || raw.collect { |s| s.max }.max
   
@@ -90,7 +88,19 @@ module GChart
         set.collect { |n| GChart.encode(:extended, n, max) }.join
       end
   
-      "e:#{sets.join(",")}"
+      params["chd"] = "e:#{sets.join(",")}"
     end
+    
+    def render_title(params)
+      params["chtt"] = title.tr("\n", "|").gsub(/\s+/, "+") if title
+    end
+    
+    def render_colors(params)
+      params["chco"] = colors.join(",") if colors  
+    end
+    
+    def render_legend(params)
+      params["chl"] = legend.join("|") if legend
+    end    
   end
 end

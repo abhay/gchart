@@ -3,5 +3,9 @@ module GChart
     def render_chart_type #:nodoc:
       "p"
     end
+    
+    def render_legend(params)
+      params["chdl"] = legend.join("|") if legend
+    end
   end
 end
