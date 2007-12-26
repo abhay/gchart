@@ -37,15 +37,15 @@ module GChart
       yield(self) if block_given?
     end
 
-    # Sets the chart's width, in pixels. Raises +ArgumentError+ if +width+ is less than 1.
+    # Sets the chart's width, in pixels. Raises +ArgumentError+ if +width+ is less than 1 or greater than 1,000.
     def width=(width)
-      raise ArgumentError, "Invalid width: #{width.inspect}" if width.nil? || width < 1
+      raise ArgumentError, "Invalid width: #{width.inspect}" if width.nil? || width < 1 || width > 1_000
       @width = width
     end
 
-    # Sets the chart's height, in pixels. Raises +ArgumentError+ if +height+ is less than 1.
+    # Sets the chart's height, in pixels. Raises +ArgumentError+ if +height+ is less than 1 or greater than 1,000.
     def height=(height)
-      raise ArgumentError, "Invalid height: #{height.inspect}" if height.nil? || height < 1
+      raise ArgumentError, "Invalid height: #{height.inspect}" if height.nil? || height < 1 || height > 1_000
       @height = height
     end
 
@@ -54,9 +54,10 @@ module GChart
       "#{width}x#{height}"
     end
 
-    # Sets the chart's size as "WIDTHxHEIGHT".
+    # Sets the chart's size as "WIDTHxHEIGHT". Raises +ArgumentError+ if +width+ * +height+ is greater than 300,000 pixels.
     def size=(size)
       self.width, self.height = size.split("x").collect { |n| Integer(n) }
+      raise ArgumentError, "Invalid size: #{size.inspect} requests a graph with more than 300,000 pixels" if (self.width * self.height) > 300_000
     end
 
     # Returns the chart's URL.

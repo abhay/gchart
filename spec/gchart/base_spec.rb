@@ -52,6 +52,12 @@ describe GChart::Base, "#size" do
     lambda { @chart.width = -1 }.should raise_error(ArgumentError)
     lambda { @chart.height= -1 }.should raise_error(ArgumentError)
   end
+  
+  it "complains about sizes that are out of bounds (300,000 pixel graph limit, 1000 pixel side limit)" do
+    lambda { @chart.size = "491x611" }.should raise_error(ArgumentError)
+    lambda { @chart.size = "1001x300" }.should raise_error(ArgumentError)
+    lambda { @chart.size = "300x1001" }.should raise_error(ArgumentError)
+  end
 end
 
 describe GChart::Base, "#render_chart_type" do
