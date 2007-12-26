@@ -6,8 +6,9 @@ end
 
 module GChart
   URL   = "http://chart.apis.google.com/chart"
-  CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.".split("")
-  PAIRS = CHARS.collect { |first| CHARS.collect { |second| first + second } }.flatten
+  SIMPLE_CHARS = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
+  EXTENDED_CHARS = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + %w[- .]
+  EXTENDED_PAIRS = EXTENDED_CHARS.collect { |first| EXTENDED_CHARS.collect { |second| first + second } }.flatten
 
   class << self
     # Convenience constructor for GChart::Line.
@@ -34,12 +35,19 @@ module GChart
     # Encode +n+ as a string. +n+ is normalized based on +max+.
     # +encoding+ can currently only be :extended.
     def encode(encoding, n, max)
-      unless encoding == :extended
+      case encoding
+      when :simple
+        return "_" if n.nil?
+        SIMPLE_CHARS[((n/max.to_f) * (SIMPLE_CHARS.size - 1)).round]
+      when :text
+        return "-1" if n.nil?
+        ((((n/max.to_f) * 1000.0).round)/10.0).to_s
+      when :extended
+        return "__" if n.nil?
+        EXTENDED_PAIRS[((n/max.to_f) * (EXTENDED_PAIRS.size - 1)).round]
+      else
         raise ArgumentError, "unsupported encoding: #{encoding.inspect}"
       end
-
-      return "__" if n.nil?
-      PAIRS[(n * (PAIRS.size - 1) / max).to_i]
     end
   end
 end

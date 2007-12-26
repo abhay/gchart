@@ -7,8 +7,32 @@ describe GChart do
 end
 
 describe GChart, ".encode" do
-  it "only supports the extended encoding" do
-    lambda { GChart.encode(:simple, 4, 10) }.should raise_error(ArgumentError)
+  it "supports the simple, text, and extended encoding" do
+    lambda { GChart.encode(:simple, 4, 10) }.should_not raise_error(ArgumentError)
+    lambda { GChart.encode(:text, 4, 10) }.should_not raise_error(ArgumentError)
+    lambda { GChart.encode(:extended, 4, 10) }.should_not raise_error(ArgumentError)
+    lambda { GChart.encode(:monkey, 4, 10) }.should raise_error(ArgumentError)
+  end
+  
+  it "implements the simple encoding" do
+    expected = {
+      0 => "A", 19 => "T", 27 => "b", 53 => "1", 61 => "9",
+      12 => "M", 39 => "n", 57 => "5", 45 => "t", 51 => "z"
+    }
+    
+    expected.each do |original, encoded|
+      GChart.encode(:simple, original, 61).should == encoded
+    end
+  end
+  
+  it "implements the text encoding" do
+    expected = {
+      0 => "0.0", 10 => "10.0", 58 => "58.0", 95 => "95.0", 30 => "30.0", 8 => "8.0", 63 => "63.0", 100 => "100.0"
+    }
+    
+    expected.each do |original, encoded|
+      GChart.encode(:text, original, 100).should == encoded
+    end
   end
 
   it "implements the extended encoding" do
@@ -24,16 +48,18 @@ describe GChart, ".encode" do
   end
   
   it "encodes nil correctly" do
+    GChart.encode(:simple, nil, 1).should == "_"
+    GChart.encode(:text, nil, 1).should == "-1"
     GChart.encode(:extended, nil, 1).should == "__"
   end
 end
 
 describe GChart, ".line" do
   it "can render a basic line URL" do
-    expected = { "cht" => "lc", "chs" => "300x200", "chd" => "e:AAAo..", "chtt" => "test" }
+    expected = { "cht" => "lc", "chs" => "300x200", "chd" => "e:AAAp..", "chtt" => "test" }
     chart = GChart.line(:title => "test", :data => [1, 100, 10000])
 
     chart.query_params.should == expected
-    chart.to_url.should == "http://chart.apis.google.com/chart?chs=300x200&cht=lc&chtt=test&chd=e:AAAo.."
+    chart.to_url.should == "http://chart.apis.google.com/chart?chs=300x200&cht=lc&chtt=test&chd=e:AAAp.."
   end
 end
