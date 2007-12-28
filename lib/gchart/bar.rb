@@ -34,25 +34,27 @@ module GChart
     end
     
     def thickness=(thickness)
-      raise ArgumentError, "Invalid bar thickness: #{thickness.inspect}" if thickness.nil? || thickness < 1
+      raise ArgumentError, "Invalid thickness: #{thickness.inspect}" if thickness.nil? || thickness < 1
       @thickness = thickness
     end
     
     def spacing=(spacing)
-      raise ArgumentError, "Invalid bar spacing: #{spacing.inspect}" if spacing.nil? || spacing < 1
+      raise ArgumentError, "Invalid spacing: #{spacing.inspect}" if spacing.nil? || spacing < 1
       @spacing = spacing
     end
 
+    # overrides GChart::Base#query_params
+    def query_params(params={}) #:nodoc:
+      values = []
+      values << thickness if thickness
+      values << spacing if thickness && spacing
+      
+      params["chbh"] = values.join(",") unless values.empty?
+      super(params)
+    end
+  
     def render_chart_type #:nodoc:
       "b#{@orientation.to_s[0..0]}#{grouped? ? "g" : "s"}"
-    end
-    
-    def render_bar_height(params)
-      if !thickness.nil? and !spacing.nil?
-        params['chbh'] = "#{thickness},#{spacing}"
-      elsif !thickness.nil? and spacing.nil?
-        params['chbh'] = "#{thickness}"
-      end
     end
   end
 end

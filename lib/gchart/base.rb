@@ -37,15 +37,23 @@ module GChart
       yield(self) if block_given?
     end
 
-    # Sets the chart's width, in pixels. Raises +ArgumentError+ if +width+ is less than 1 or greater than 1,000.
+    # Sets the chart's width, in pixels. Raises +ArgumentError+
+    # if +width+ is less than 1 or greater than 1,000.
     def width=(width)
-      raise ArgumentError, "Invalid width: #{width.inspect}" if width.nil? || width < 1 || width > 1_000
+      if width.nil? || width < 1 || width > 1_000
+        raise ArgumentError, "Invalid width: #{width.inspect}"
+      end
+
       @width = width
     end
 
-    # Sets the chart's height, in pixels. Raises +ArgumentError+ if +height+ is less than 1 or greater than 1,000.
+    # Sets the chart's height, in pixels. Raises +ArgumentError+
+    # if +height+ is less than 1 or greater than 1,000.
     def height=(height)
-      raise ArgumentError, "Invalid height: #{height.inspect}" if height.nil? || height < 1 || height > 1_000
+      if height.nil? || height < 1 || height > 1_000
+        raise ArgumentError, "Invalid height: #{height.inspect}"         
+      end
+      
       @height = height
     end
 
@@ -54,10 +62,14 @@ module GChart
       "#{width}x#{height}"
     end
 
-    # Sets the chart's size as "WIDTHxHEIGHT". Raises +ArgumentError+ if +width+ * +height+ is greater than 300,000 pixels.
+    # Sets the chart's size as "WIDTHxHEIGHT". Raises +ArgumentError+
+    # if +width+ * +height+ is greater than 300,000 pixels.
     def size=(size)
       self.width, self.height = size.split("x").collect { |n| Integer(n) }
-      raise ArgumentError, "Invalid size: #{size.inspect} requests a graph with more than 300,000 pixels" if (self.width * self.height) > 300_000
+      
+      if (width * height) > 300_000
+        raise ArgumentError, "Invalid size: #{size.inspect} yields a graph with more than 300,000 pixels"
+      end
     end
 
     # Returns the chart's URL.
@@ -80,14 +92,9 @@ module GChart
 
     protected
     
-    def query_params #:nodoc:
-      params = { "cht" => render_chart_type, "chs" => size }
+    def query_params(raw_params={}) #:nodoc:
+      params = raw_params.merge("cht" => render_chart_type, "chs" => size)
       
-      case params["cht"]
-      when /b(h|v)(g|s)/
-        render_bar_height(params)
-      end
-    
       render_data(params)
       render_title(params)
       render_colors(params)
