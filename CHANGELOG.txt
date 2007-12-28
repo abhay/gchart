@@ -1,4 +1,4 @@
-== UNRELEASED
+== 0.4.0 (2007-12-28)
 
   * New committer, Abhay Kumar
   * Implement all three encodings. Fix extended encoding calculation.
