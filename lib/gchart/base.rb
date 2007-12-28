@@ -112,7 +112,7 @@ module GChart
     end
     
     def render_title(params) #:nodoc:
-      params["chtt"] = title.tr("\n", "|").gsub(/\s+/, "+") if title
+      params["chtt"] = title.tr("\n ", "|+") if title
     end
     
     def render_colors(params) #:nodoc:
