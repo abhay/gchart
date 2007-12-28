@@ -20,5 +20,12 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ["--options", "spec/spec.opts"]
 end
 
+desc "Run all specs and get coverage statistics"
+Spec::Rake::SpecTask.new('spec:rcov') do |t|
+  t.spec_files = FileList["spec/**/*_spec.rb"]
+  t.rcov = true
+  t.spec_opts = ["--options", "spec/spec.opts"]
+end
+
 Rake::Task[:default].prerequisites.clear
 task :default => :spec
