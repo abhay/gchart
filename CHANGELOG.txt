@@ -5,6 +5,7 @@
   * Support bar thickness/spacing for bar charts
   * (bug #16565 fixed) GChart now tells you when your chart is too big.
   * Pushed some bar chart params logic down where it belongs
+  * Enforce pie chart spec: pie charts only take one set of data
 
 == 0.3.0 (2007-12-24)
   
