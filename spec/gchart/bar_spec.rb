@@ -22,3 +22,51 @@ describe GChart::Bar do
     GChart::Bar.new(:orientation => :vertical).render_chart_type.should == "bvs"
   end
 end
+
+describe GChart::Bar, "#thickness" do
+  before(:each) { @chart = GChart::Bar.new }
+  
+  it "can be specified" do
+    @chart.thickness = 10
+    @chart.thickness.should == 10
+  end
+  
+  it "complains about negative numbers" do
+    lambda { @chart.thickness = -1 }.should raise_error(ArgumentError)
+  end
+end
+
+describe GChart::Bar, "#spacing" do
+  before(:each) { @chart = GChart::Bar.new }
+  
+  it "can be specified" do
+    @chart.spacing = 2
+    @chart.spacing.should == 2
+  end
+  
+  it "complains about negative numbers" do
+    lambda { @chart.spacing = -1 }.should raise_error(ArgumentError)
+  end
+end
+
+describe GChart::Bar, "#query_params" do
+  before(:each) { @chart = GChart::Bar.new }
+  
+  it "contains the chart's type" do
+    @chart.query_params["cht"].should =~ /b(h|v)(g|s)/
+  end
+  
+  it "contains the chart's bar height" do
+    @chart.thickness = 10
+    @chart.query_params.keys.include?("chbh").should be_true
+    @chart.query_params["chbh"].should == "10"
+    @chart.spacing = 2
+    @chart.query_params.keys.include?("chbh").should be_true
+    @chart.query_params["chbh"].should == "10,2"
+  end
+  
+  it "it does not contain a bar height without a thickness" do
+    @chart.spacing = 2
+    @chart.query_params.keys.include?("chbh").should be_false
+  end
+end

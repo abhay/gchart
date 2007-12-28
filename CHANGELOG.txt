@@ -2,6 +2,7 @@
 
   * New committer, Abhay Kumar
   * Implement all three encodings. Fix extended encoding calculation.
+  * Support bar thickness/spacing for bar charts
   * (bug #16565 fixed) GChart now tells you when your chart is too big.
 
 == 0.3.0 (2007-12-24)

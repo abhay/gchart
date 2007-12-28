@@ -82,6 +82,11 @@ module GChart
     
     def query_params #:nodoc:
       params = { "cht" => render_chart_type, "chs" => size }
+      
+      case params["cht"]
+      when /b(h|v)(g|s)/
+        render_bar_height(params)
+      end
     
       render_data(params)
       render_title(params)
