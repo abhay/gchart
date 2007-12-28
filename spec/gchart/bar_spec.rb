@@ -23,6 +23,14 @@ describe GChart::Bar do
   end
 end
 
+describe GChart::Bar, "#orientation" do
+  before(:each) { @chart = GChart::Bar.new }
+  
+  it "complains if orientation is invalid" do
+    lambda { @chart.orientation = :monkey }.should raise_error(ArgumentError)
+  end
+end
+
 describe GChart::Bar, "#thickness" do
   before(:each) { @chart = GChart::Bar.new }
   
