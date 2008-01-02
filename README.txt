@@ -16,7 +16,7 @@ There are lots of missing features. Until they're implemented, you can directly 
 query parameters using the :extras key, e.g.,
 
   # provides a legend for each data set
-  g = GChart.line(:data => [[1, 2], [3, 4]], :extras => { "chdl" => ["First", "Second"] })
+  g = GChart.line(:data => [[1, 2], [3, 4]], :extras => { "chdl" => "First|Second"})
 
 == SYNOPSIS
 
