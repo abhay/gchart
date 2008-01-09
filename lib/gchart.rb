@@ -44,7 +44,7 @@ module GChart
         ((((n/max.to_f) * 1000.0).round)/10.0).to_s
       when :extended
         return "__" if n.nil?
-        EXTENDED_PAIRS[((n/max.to_f) * (EXTENDED_PAIRS.size - 1)).round]
+        EXTENDED_PAIRS[max.zero? ? 0 : ((n/max.to_f) * (EXTENDED_PAIRS.size - 1)).round]
       else
         raise ArgumentError, "unsupported encoding: #{encoding.inspect}"
       end

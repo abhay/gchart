@@ -52,6 +52,10 @@ describe GChart, ".encode" do
     GChart.encode(:text, nil, 1).should == "-1"
     GChart.encode(:extended, nil, 1).should == "__"
   end
+  
+  it "encodes 0 with a max of 0 correctly" do
+    GChart.encode(:extended, 0, 0).should == "AA"
+  end
 end
 
 describe GChart, ".line" do

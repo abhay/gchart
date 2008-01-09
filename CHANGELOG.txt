@@ -1,3 +1,7 @@
+== 0.4.2 (2008-01-09)
+
+  * Encoding a flatlined chart doesn't asplode [Jack Danger Canty]
+
 == 0.4.1 (2008-01-02)
 
   * (bug #16756 fixed) Example in the README is incorrect
