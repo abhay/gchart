@@ -1,3 +1,7 @@
+== UNRELEASED
+
+  * Freeze GChart::VERSION.
+
 == 0.4.2 (2008-01-09)
 
   * Encoding a flatlined chart doesn't asplode [Jack Danger Canty]
