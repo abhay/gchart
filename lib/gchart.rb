@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/version")
 
-%w(base bar line pie pie_3d scatter venn xy_line).each do |type|
+%w(base bar line map pie pie_3d scatter venn xy_line).each do |type|
   require File.expand_path(File.dirname(__FILE__) + "/gchart/#{type}")
 end
 
@@ -20,6 +20,9 @@ module GChart
     # Convenience constructor for GChart::Bar.
     def bar(*args, &block); Bar.new(*args, &block) end    
     
+    # Convenience constructor for GChart::Map.
+    def map(*args, &block); Map.new(*args, &block) end    
+
     # Convenience constructor for GChart::Pie.
     def pie(*args, &block); Pie.new(*args, &block) end    
     
