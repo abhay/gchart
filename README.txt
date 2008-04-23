@@ -34,6 +34,12 @@ query parameters using the :extras key, e.g.,
   
   # scatter plot (x coords, y coords [, sizes])
   g = GChart.scatter(:data => [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1], [1, 2, 3, 4, 5]])
+
+  # map chart
+  g = GChart.map(:area => 'usa', :data => {'NY'=>1,'VA'=>3,'CA'=>2})
+  
+  # meter
+  g = GChart.meter(:data => 70, :label => "70%")
   
   # chart title
   g = GChart.line(:title => "Awesomeness over Time", :data => [0, 10, 100])
